@@ -4,27 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>Nick's On One | Personal Blog &amp; Real Thoughts</title>
-    <meta name="description" content="Nick's On One is a personal blog for honest thoughts, humor, real-life perspective, and independent media from the Mosaic Minds Media network." />
-    <meta name="keywords" content="Nick's On One, NicksOn1, personal blog, honest writing, real-life essays, humor, perspective, Mosaic Minds Media, Mosaic Minds Podcast, Nick Williams, independent media" />
+    <meta name="description" content="Nick's On One is a personal blog for honest thoughts, real life, culture, humor, frustration, perspective shifts, and the quiet moments in between." />
+    <meta name="keywords" content="Nick's On One, NicksOn1, personal blog, honest writing, real life" />
     <meta name="theme-color" content="#0E0E0E" />
     <meta property="og:title" content="Nick's On One | Personal Blog &amp; Real Thoughts" />
-    <meta property="og:description" content="Real thoughts. Sharp edges. No pretending. A personal blog connected to the Mosaic Minds Media network." />
+    <meta property="og:description" content="Real thoughts. Sharp edges. No pretending. A personal blog by Nick Williams." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Netlify Identity: redirect invite/recovery tokens to /admin -->
+    <script>
+      if (window.location.hash && (
+        window.location.hash.indexOf('invite_token=') !== -1 ||
+        window.location.hash.indexOf('recovery_token=') !== -1 ||
+        window.location.hash.indexOf('confirmation_token=') !== -1
+      )) {
+        window.location.href = '/admin' + window.location.hash;
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
 </html>
