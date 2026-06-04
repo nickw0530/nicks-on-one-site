@@ -42,7 +42,6 @@ export default function PostDetail() {
       description={post.excerpt}
       keywords={post.categories.join(", ")}
     >
-      {/* Post header */}
       <article>
         <header className="border-b border-ink/15">
           <div className="container py-12 md:py-20">
@@ -54,7 +53,6 @@ export default function PostDetail() {
             </Link>
 
             <div className="max-w-3xl">
-              {/* Categories */}
               <div className="flex flex-wrap gap-2 mb-5">
                 {post.categories.map((cat) => (
                   <span
@@ -67,12 +65,10 @@ export default function PostDetail() {
                 ))}
               </div>
 
-              {/* Title */}
               <h1 className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[0.95] tracking-[-0.02em]">
                 {post.title}
               </h1>
 
-              {/* Meta */}
               <div className="mt-6 flex items-center gap-4 text-ink/55">
                 <span className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest">
                   <Calendar className="w-3.5 h-3.5" />
@@ -84,7 +80,6 @@ export default function PostDetail() {
                 </span>
               </div>
 
-              {/* Excerpt/lead */}
               <p className="mt-8 text-xl md:text-2xl text-ink/80 leading-relaxed font-light border-l-4 border-accent pl-6">
                 {post.excerpt}
               </p>
@@ -92,7 +87,6 @@ export default function PostDetail() {
           </div>
         </header>
 
-        {/* Post body — shown when body content exists, otherwise link to full post */}
         <div className="container py-12 md:py-16">
           <div className="max-w-3xl">
             {post.body ? (
@@ -102,12 +96,11 @@ export default function PostDetail() {
               />
             ) : (
               <div className="border-2 border-dashed border-ink/20 rounded-sm p-12 text-center">
-                <Quote className="w-8 h-8 mx-auto text-ink/25 mb-4" />
-                <p className="font-display font-bold text-xl text-ink/70">
-                  Full article content coming soon.
+                <p className="font-display font-bold text-2xl text-ink/70">
+                  Full article coming soon.
                 </p>
                 <p className="mt-2 text-ink/50 text-sm">
-                  This post is being migrated. Check back soon, or subscribe to get updates.
+                  This post is being migrated. Subscribe to get updates when it's ready.
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                   <a href="https://www.youtube.com/@nicks_on_one" target="_blank" rel="noopener noreferrer">
@@ -122,7 +115,6 @@ export default function PostDetail() {
               </div>
             )}
 
-            {/* Navigation footer */}
             <div className="mt-16 pt-8 border-t border-ink/15 flex flex-wrap items-center justify-between gap-4">
               <Link href="/blog">
                 <button className="inline-flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors">
