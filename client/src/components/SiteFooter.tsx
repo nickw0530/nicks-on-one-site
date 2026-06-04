@@ -15,11 +15,13 @@ export default function SiteFooter() {
           {/* Brand */}
           <div className="md:col-span-5">
             <div className="flex items-center gap-3 mb-5">
-              <img
-                src={ASSETS.logo}
-                alt="Nick's On One logo"
-                className="h-11 w-11 invert"
-              />
+              {ASSETS.logo && (
+                        <img
+                                              src={ASSETS.logo}
+                                              alt="Nick's On One logo"
+                                              className="h-11 w-11 invert"
+                                            />
+                      )}
               <span className="font-display font-black text-2xl tracking-tight">
                 Nick's <span className="text-[color:var(--noo-accent)]">On</span> One
               </span>
@@ -77,11 +79,7 @@ export default function SiteFooter() {
               href={SITE.parentUrl}
               className="flex items-center gap-3 group mb-4"
             >
-              <img
-                src={ASSETS.mosaicLogo}
-                alt="Mosaic Minds Media logo"
-                className="w-11 h-11 rounded-full object-cover ring-1 ring-white/10"
-              />
+                  <div className="w-11 h-11 rounded-full bg-paper/5 ring-1 ring-white/10 flex items-center justify-center"><span className="font-display font-bold text-paper/80 text-sm">MM</span></div>
               <div>
                 <p className="font-display font-semibold text-[15px] group-hover:text-[color:var(--noo-accent)] transition-colors">
                   Mosaic Minds Media ↗
