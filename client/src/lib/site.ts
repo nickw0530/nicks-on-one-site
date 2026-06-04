@@ -20,7 +20,8 @@ export const SITE = {
 export const ASSETS = {
     logo: "/Site-Logo.png",
   headshot: "/nick-headshot.jpg",
-  mosaicLogo: "/MMM Logo.png",
+  mosaicLogo: "/MMM%20Logo.png",
+    podcastLogo: "/Podcast%20Logo.png",
 } as const;
 
 export const NAV = [
