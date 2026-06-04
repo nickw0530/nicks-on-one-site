@@ -9,7 +9,64 @@ import PageLayout from "@/components/PageLayout";
 import SubscribeForm from "@/components/SubscribeForm";
 import { ASSETS, POSTS, SITE } from "@/lib/site";
 import { ArrowRight, ArrowUpRight, Quote } from "lucide-react";
+import { useEffect, useState } from "react";
+// ─── YouTube Latest Video Section ───────────────────────────────────────────
+function YouTubeSection() {
+    const [videoId, setVideoId] = useState<string | null>(null);
+    const [videoTitle, setVideoTitle] = useState<string>("");
+    const CHANNEL_ID = "UCYBJLlAgN1SfIYe3zRE1CyQ";
 
+    useEffect(() => {
+          const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+          fetch(feedUrl)
+            .then((r) => r.json())
+            .then((data) => {
+                      if (data.items && data.items.length > 0) {
+                                  const latest = data.items[0];
+                                  const id = latest.link.split("v=")[1]?.split("&")[0];
+                                  if (id) {
+                                                setVideoId(id);
+                                                setVideoTitle(latest.title || "Latest Video");
+                                  }
+                      }
+            })
+            .catch(() => {});
+    }, []);
+
+    if (!videoId) return null;
+
+    return (
+          <section className="py-16 border-t border-[#E8E0D5]">
+                <div className="container">
+                        <div className="max-w-3xl mx-auto">
+                                  <span className="kicker">Watch</span>span>
+                                  <h2 className="mt-3 font-display text-3xl font-black tracking-[-0.02em] leading-[1.1]">
+                                              Latest from the Channel
+                                  </h2>h2>
+                                  <p className="mt-3 text-lg text-foreground/70 max-w-xl">
+                                              Prefer to watch? The latest video is right here — or click through to YouTube.
+                                  </p>p>
+                                  <div className="mt-6 aspect-video w-full rounded-lg overflow-hidden shadow-lg">
+                                              <iframe
+                                                              width="100%"
+                                                              height="100%"
+                                                              src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
+                                                              title={videoTitle}
+                                                              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                              allowFullScreen
+                                                              className="w-full h-full"
+                                                            />
+                                  </div>div>
+                                  <p className="mt-3 text-sm text-foreground/50 font-mono uppercase tracking-[0.08em]">
+                                    {videoTitle}
+                                  </p>p>
+                        </div>div>
+                </div>div>
+          </section>section>
+        );
+}
+
+</section>
 export default function Home() {
   const [latest, ...rest] = POSTS;
   const recent = rest.slice(0, 5);
@@ -346,6 +403,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ─────────────── YOUTUBE ─────────────── */}
+              <YouTubeSection />
 
       {/* ─────────────── SUBSCRIBE ─────────────── */}
       <section className="bg-[#0E0E0E] text-paper">
