@@ -160,7 +160,7 @@ export default function Home() {
               <span className="kicker">The Lead Story - Newest Post</span>
             </div>
             <div className="grid grid-cols-12 gap-8 items-start">
-              <div className="col-span-12 md:col-span-8">
+              <div className="col-span-12 md:col-span-7">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {latest.categories.slice(0, 3).map((c) => (
                     <span key={c} className="font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--noo-accent)]">{c}</span>
@@ -177,6 +177,7 @@ export default function Home() {
                   Read More <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
+              {latest.coverImage && (<div className="col-span-12 md:col-span-5"><a href={latest.externalUrl} className="block"><img src={latest.coverImage} alt={latest.title} className="w-full aspect-[4/3] object-cover rounded-sm" /></a></div>)}
             </div>
           </div>
         </section>
