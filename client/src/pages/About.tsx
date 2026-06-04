@@ -109,7 +109,7 @@ export default function About() {
               </p>
             </div>
             <div className="col-span-12 md:col-span-4 md:col-start-9 flex items-center gap-4 justify-start md:justify-end">
-              <div className="w-20 h-20 rounded-full bg-paper/5 ring-1 ring-white/10 flex items-center justify-center"><span className="font-display font-bold text-paper/80 text-lg">MM</span></div>
+              <img src={ASSETS.mosaicLogo} alt="Mosaic Minds Media" className="w-20 h-20 rounded-full object-cover ring-1 ring-white/10" />
               <div>
                 <a
                   href={SITE.parentUrl}
