@@ -20,13 +20,13 @@ function parseMarkdown(md: string): string {
     .replace(/^## (.+)$/gm, "<h2>$1</h2>")
     .replace(/^# (.+)$/gm, "<h1>$1</h1>")
     // Bold and italic
-    .replace(/***(.+?)***/g, "<strong><em>$1</em></strong>")
-    .replace(/**(.+?)**/g, "<strong>$1</strong>")
-    .replace(/*(.+?)*/g, "<em>$1</em>")
+          .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*(.+?)\*/g, "<em>$1</em>")
     // Images (before links so ![alt](url) is parsed first)
-    .replace(/![([^]]*)](([^)]+))/g, '<img src="$2" alt="$1" class="w-full rounded-sm my-6 shadow-sm" />')
+                      .replace(/!\[([^\]]*)]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full rounded-sm my-6 shadow-sm" />')
     // Links
-    .replace(/[([^]]+)](([^)]+))/g, '<a href="$2" class="text-accent underline underline-offset-2 hover:opacity-80" target="_blank" rel="noopener noreferrer">$1</a>')
+          .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a href="$2" class="text-accent underline underline-offset-2 hover:opacity-80" target="_blank" rel="noopener noreferrer">$1</a>')
     // Horizontal rule
     .replace(/^---$/gm, "<hr class=\"border-ink/15 my-8\" />")
     // Blockquotes
