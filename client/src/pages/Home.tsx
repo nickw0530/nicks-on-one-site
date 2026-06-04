@@ -251,7 +251,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-paper/10">
+      <section className="border-t border-paper/10 bg-ink text-paper">
         <div className="container py-16 md:py-20">
           <div className="max-w-xl mx-auto text-center">
             <span className="kicker-paper">Subscribe</span>
