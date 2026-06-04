@@ -10,12 +10,16 @@ collections:
     label: Blog Posts
     folder: client/src/data/posts
     create: true
+    format: json
     slug: "{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Slug", name: "slug", widget: "string"}
       - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
       - {label: "Excerpt", name: "excerpt", widget: "text"}
-      - {label: "Cover Image", name: "image", widget: "image", required: false}
-      - {label: "Categories", name: "categories", widget: "list", field: {label: "Category", name: "category", widget: "select", options: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection", "Rants", "Relationships"]}}
+      - {label: "Cover Image", name: "coverImage", widget: "image", required: false}
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        field: {label: "Category", name: "category", widget: "select", options: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection", "Rants", "Relationships"]}
       - {label: "External Post URL", name: "externalUrl", widget: "string", required: false}
