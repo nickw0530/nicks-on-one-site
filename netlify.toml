@@ -1,8 +1,4 @@
-[build]
-  base = "client"
-  command = "pnpm run build"
-  publish = "client/dist"
-
+# Redirect all routes to index.html for React SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
