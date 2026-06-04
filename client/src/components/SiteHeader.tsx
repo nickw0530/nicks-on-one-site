@@ -54,13 +54,11 @@ export default function SiteHeader() {
       <div className="container flex items-center justify-between py-3 md:py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          {ASSETS.logo && (
-                      <img
-                                          src={ASSETS.logo}
-                                          alt="Nick's On One logo"
-                                          className="h-10 w-10 md:h-11 md:w-11 object-contain"
-                                        />
-                    )}
+                    <img
+                                  src={ASSETS.logo}
+                                  alt="Nick's On One logo"
+                                  className="h-10 w-10 md:h-11 md:w-11 object-contain"
+                                />
           <span className="font-display font-black tracking-tight text-[1.3rem] md:text-[1.55rem] leading-none">
             Nick's <span className="text-[color:var(--noo-accent)]">On</span> One
           </span>
@@ -110,7 +108,7 @@ export default function SiteHeader() {
       >
         <div className="container flex items-center justify-between py-4 border-b border-white/15">
           <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-            {ASSETS.logo && <img src={ASSETS.logo} alt="Nick's On One" className="h-9 w-9 invert" />}
+                        <img src={ASSETS.logo} alt="Nick's On One" className="h-9 w-9 invert" />
             <span className="font-display font-black tracking-tight text-xl">
               Nick's On One
             </span>
