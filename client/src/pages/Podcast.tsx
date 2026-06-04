@@ -81,7 +81,7 @@ export default function Podcast() {
             >
               <div>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-ink/5 ring-1 ring-ink/15 flex items-center justify-center"><span className="font-display font-bold text-ink/80 text-sm">MM</span></div>
+                  <img src={ASSETS.mosaicLogo} alt="Mosaic Minds Media" className="w-12 h-12 rounded-full object-cover ring-1 ring-ink/15" />
                   <span className="kicker">Studio</span>
                 </div>
                 <h2 className="font-display font-black text-[clamp(2rem,3.5vw,2.75rem)] tracking-[-0.015em] leading-[1.05]">
