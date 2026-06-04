@@ -139,21 +139,37 @@ const STATIC_POSTS: Post[] = [
 
 // ── CMS posts (dynamic) ──────────────────────────────────────────────────────
 // CMS posts are stored as JSON in client/src/data/posts/*.json
-// They are imported and merged at build time if any exist.
+// They are loaded via Vite's import.meta.glob at build time.
 
-const CMS_POSTS: Post[] = [];
+const jsonModules = import.meta.glob('../data/posts/*.json', { eager: true });
 
-// Merged: CMS posts first (newest), then static posts
-export const POSTS: Post[] = [...CMS_POSTS, ...STATIC_POSTS];
+function makeDateLabel(dateStr: string): string {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
 
-export const ALL_CATEGORIES = [
-  "Family",
-  "Goals/Self-Improvement",
-  "Karma",
-  "Kindness",
-  "Personal Reflection",
-  "Rants",
-  "Relationships",
-] as const;
+const CMS_POSTS: Post[] = Object.values(jsonModules)
+  .map((mod: any) => {
+    const data = mod.default || mod;
+    if (!data.slug || !data.title) return null;
+    return {
+      slug: data.slug,
+      title: data.title,
+      date: data.date || '',
+      dateLabel: data.dateLabel || makeDateLabel(data.date || ''),
+      categories: Array.isArray(data.categories) ? data.categories : [],
+      excerpt: data.excerpt || '',
+      externalUrl: data.externalUrl || '/blog/' + data.slug,
+      coverImage: data.coverImage || undefined,
+      body: data.body || undefined,
+    } as Post;
+  })
+  .filter((p): p is Post => p !== null)
+  .sort((a, b) => b.date.localeCompare(a.date));
 
-export type Category = (typeof ALL_CATEGORIES)[number];
+// Merged: CMS posts first (newest), then static posts that aren't in CMS
+const cmsSlugSet = new Set(CMS_POSTS.map(p => p.slug));
+export const POSTS: Post[] = [
+  ...CMS_POSTS,
+  ...STATIC_POSTS.filter(p => !cmsSlugSet.has(p.slug)),
+].sort((a, b) => b.date.localeCompare(a.date));
