@@ -173,3 +173,8 @@ export const POSTS: Post[] = [
   ...CMS_POSTS,
   ...STATIC_POSTS.filter(p => !cmsSlugSet.has(p.slug)),
 ].sort((a, b) => b.date.localeCompare(a.date));
+
+
+export const ALL_CATEGORIES: string[] = Array.from(
+    new Set(POSTS.flatMap((p) => p.categories))
+  ).sort();
