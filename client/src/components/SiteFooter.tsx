@@ -79,7 +79,7 @@ export default function SiteFooter() {
               href={SITE.parentUrl}
               className="flex items-center gap-3 group mb-4"
             >
-                  <div className="w-11 h-11 rounded-full bg-paper/5 ring-1 ring-white/10 flex items-center justify-center"><span className="font-display font-bold text-paper/80 text-sm">MM</span></div>
+                  <img src={ASSETS.mosaicLogo} alt="Mosaic Minds Media" className="w-11 h-11 rounded-full object-cover ring-1 ring-white/10" />
               <div>
                 <p className="font-display font-semibold text-[15px] group-hover:text-[color:var(--noo-accent)] transition-colors">
                   Mosaic Minds Media ↗
@@ -91,9 +91,7 @@ export default function SiteFooter() {
               href={SITE.podcastUrl}
               className="flex items-center gap-3 group"
             >
-              <div className="w-11 h-11 rounded-full bg-paper/5 ring-1 ring-white/10 flex items-center justify-center">
-                <span className="font-display font-bold text-paper/80 text-sm">MM</span>
-              </div>
+<img src={ASSETS.podcastLogo} alt="Mosaic Minds Podcast" className="w-11 h-11 rounded-full object-cover ring-1 ring-white/10" />
               <div>
                 <p className="font-display font-semibold text-[15px] group-hover:text-[color:var(--noo-accent)] transition-colors">
                   Mosaic Minds Podcast ↗
