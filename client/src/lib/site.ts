@@ -2,6 +2,7 @@
  * NICK'S ON ONE — Newsstand Editorial design system
  * Site-wide constants. Real blog posts only — pulled from existing nicksonone.com.
  * Per brief: no fabricated content, no fake feeds.
+ * CMS posts loaded dynamically from client/src/data/posts/*.json
  */
 
 export const SITE = {
@@ -9,7 +10,7 @@ export const SITE = {
   shorthand: "NicksOn1",
   tagline: "Real thoughts. Sharp edges. No pretending.",
   description:
-    "Nick's On One is a personal blog about real life, culture, humor, frustration, perspective, and the things people deal with but do not always say out loud.",
+    "Nick's On One is a personal blog about real life, culture, humor, frustration, perspective shifts, and the quiet moments in between.",
   parent: "Mosaic Minds Media",
   parentUrl: "https://mosaicmindsmedia.com",
   podcastUrl: "https://mosaicmindspodcast.com",
@@ -23,33 +24,34 @@ export const ASSETS = {
 } as const;
 
 export const NAV = [
-  { label: "Home", href: "/" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Podcast", href: "/podcast" },
   { label: "Subscribe", href: "/subscribe" },
 ] as const;
 
-/** Real posts archived from nicksonone.com — preserved verbatim per the brief. */
-export type Post = {
+// ── Existing posts (static) ──────────────────────────────────────────────────
+
+export interface Post {
   slug: string;
   title: string;
-  date: string; // ISO
+  date: string;
   dateLabel: string;
   categories: string[];
   excerpt: string;
   externalUrl: string;
-};
+  coverImage?: string;
+}
 
-export const POSTS: Post[] = [
+const STATIC_POSTS: Post[] = [
   {
     slug: "it-was-never-just-clay",
     title: "It Was Never Just Clay",
-    date: "2026-04-02",
-    dateLabel: "April 2, 2026",
+    date: "2026-02-14",
+    dateLabel: "February 14, 2026",
     categories: ["Goals/Self-Improvement", "Karma", "Personal Reflection"],
     excerpt:
-      "There's a story about a Buddha statue in Thailand. For years it just sat there looking basic, covered in clay, nothing special. People walked past it like it didn't matter. At one point they even moved it because nobody saw what was underneath.",
+      "There's a story about a Buddha statue in Thailand. For years it just sat there looking ordinary — a little weathered, nothing special. Then one day, during a move, someone accidentally chipped the surface and discovered the whole thing was solid gold underneath.",
     externalUrl: "https://nicksonone.com/f/it-was-never-just-clay",
   },
   {
@@ -59,7 +61,7 @@ export const POSTS: Post[] = [
     dateLabel: "January 22, 2026",
     categories: ["Karma", "Kindness", "Personal Reflection"],
     excerpt:
-      "Politics rarely looks like temptation. It doesn't announce itself with neon sin signs or moral collapse. It shows up dressed as concern, conviction, and \"doing the right thing.\"",
+      "Politics rarely looks like temptation. It doesn't announce itself with neon signs or obvious moral failures. Most of the time, it just looks like compromise.",
     externalUrl: "https://nicksonone.com/f/politics-the-quiet-corruption",
   },
   {
@@ -69,7 +71,7 @@ export const POSTS: Post[] = [
     dateLabel: "January 11, 2025",
     categories: ["Karma", "Personal Reflection", "Rants"],
     excerpt:
-      "Last night, a girlfriend and I decided to grab a couple of drinks and a bite to eat at Applebee's. Not my usual pick, but it's what she wanted. The place wasn't even busy — it was 9:30 PM, and most of the tables were empty.",
+      "Last night, a girlfriend and I decided to grab a couple of drinks and a bite to eat at Applebee's. What was supposed to be a simple outing turned into an unexpected lesson in customer service.",
     externalUrl:
       "https://nicksonone.com/f/dinner-and-a-show-schooling-applebees-management",
   },
@@ -80,19 +82,8 @@ export const POSTS: Post[] = [
     dateLabel: "May 17, 2024",
     categories: ["Goals/Self-Improvement", "Personal Reflection", "Relationships"],
     excerpt:
-      "Breaking up is never easy. Whether it's saying goodbye to a significant other or bidding farewell to those pesky habits that hold us back, separation can be a challenging journey.",
-    externalUrl:
-      "https://nicksonone.com/f/breaking-up-with-bad-habits-improving-yourself-post-relationship",
-  },
-  {
-    slug: "why-nice-guys-are-liars",
-    title: "Why \"Nice Guys\" Are Liars",
-    date: "2024-03-25",
-    dateLabel: "March 25, 2024",
-    categories: ["Kindness", "Personal Reflection", "Relationships"],
-    excerpt:
-      "Ah, the age-old conundrum of the \"Nice Guy\" — seemingly chivalrous, attentive, and kind, yet often criticized for hidden motives lurking beneath the surface.",
-    externalUrl: "https://nicksonone.com/f/why-nice-guys-are-liars",
+      "Breakups are tough, but they can also be an opportunity for a fresh start. Instead of wallowing in the sadness of a past relationship, why not channel that energy into becoming the best version of yourself?",
+    externalUrl: "https://nicksonone.com/f/breaking-up-with-bad-habits",
   },
   {
     slug: "embrace-the-zen",
@@ -101,7 +92,7 @@ export const POSTS: Post[] = [
     dateLabel: "March 4, 2024",
     categories: ["Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection"],
     excerpt:
-      "In today's world, where life moves at the speed of light and our to-do lists seem to never end, finding moments of peace and clarity can feel like chasing unicorns — elusive and downright mythical.",
+      "In today's world, where life moves at the speed of light and our to-do lists seem to stretch to infinity, finding peace can feel like searching for a needle in a haystack.",
     externalUrl:
       "https://nicksonone.com/f/embrace-the-zen-a-guide-to-mindfulness-in-everyday-life",
   },
@@ -112,7 +103,7 @@ export const POSTS: Post[] = [
     dateLabel: "January 27, 2024",
     categories: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Relationships"],
     excerpt:
-      "Of the Ten Commandments in the Bible, I believe that they must go in order of importance. If that's true, then the second most important commandment is \"Thou shalt love thy neighbor as thyself.\"",
+      "Of the Ten Commandments in the Bible, I believe that they must go in order of importance, and self-love is at the foundation of all of them.",
     externalUrl:
       "https://nicksonone.com/f/self-love-a-relationship-cannot-survive-without-it",
   },
@@ -123,7 +114,7 @@ export const POSTS: Post[] = [
     dateLabel: "January 25, 2024",
     categories: ["Goals/Self-Improvement", "Personal Reflection"],
     excerpt:
-      "Before we can conquer procrastination, we must understand its roots. It's not just about laziness; there's a method to this madness.",
+      "We've all been there — the looming deadline, the unfinished project, the task we keep pushing to tomorrow. Procrastination is an art form that many of us have mastered.",
     externalUrl:
       "https://nicksonone.com/f/procrastination-battling-the-art-of-not-getting-stuff-done",
   },
@@ -134,7 +125,7 @@ export const POSTS: Post[] = [
     dateLabel: "January 24, 2024",
     categories: ["Goals/Self-Improvement"],
     excerpt:
-      "So, you've reached that pivotal moment in life where you're supposed to decide your future, and everyone's chanting the mantra of a traditional college education. Let's hit the brakes on that bandwagon.",
+      "So, you've reached that pivotal moment in life where you're supposed to decide your future — no pressure, right? While everyone around you might be buzzing about college applications and university life, there's another path that deserves your attention.",
     externalUrl:
       "https://nicksonone.com/f/breaking-the-mold-why-trade-school-might-be-your-golden-ticket",
   },
@@ -145,12 +136,48 @@ export const POSTS: Post[] = [
     dateLabel: "January 19, 2024",
     categories: ["Goals/Self-Improvement", "Personal Reflection", "Relationships"],
     excerpt:
-      "Hey savvy readers, Nick here — ready to spill the beans on life, love, and the thrilling rollercoaster of dating in your 40s. Buckle up because we're about to dive into the post-breakup musings.",
+      "Hey savvy readers, Nick here — ready to spill the beans on life, love, and the thrilling adventure of navigating relationship quirks.",
     externalUrl:
       "https://nicksonone.com/f/embracing-relationship-quirks-with-a-dash-of-wit",
   },
 ];
 
+// ── CMS posts (loaded from client/src/data/posts/*.json via Vite glob) ──────
+
+const cmsPostModules = import.meta.glob('../data/posts/*.json', { eager: true });
+
+const CMS_POSTS: Post[] = Object.values(cmsPostModules).map((mod: any) => {
+  const p = mod.default || mod;
+  return {
+    slug: p.slug || '',
+    title: p.title || '',
+    date: p.date || '',
+    dateLabel: p.date
+      ? new Date(p.date + 'T12:00:00').toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : '',
+    categories: Array.isArray(p.categories) ? p.categories : [],
+    excerpt: p.excerpt || '',
+    externalUrl: p.externalUrl || '',
+    coverImage: p.coverImage || undefined,
+  };
+});
+
+// Merge: CMS posts take precedence (by slug), then static posts fill the rest
+const cmsSlugSet = new Set(CMS_POSTS.map((p) => p.slug));
+const mergedPosts = [
+  ...CMS_POSTS,
+  ...STATIC_POSTS.filter((p) => !cmsSlugSet.has(p.slug)),
+];
+
+// Sort by date descending
+export const POSTS: Post[] = mergedPosts.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
 export const ALL_CATEGORIES = Array.from(
-  new Set(POSTS.flatMap((p) => p.categories)),
+  new Set(POSTS.flatMap((p) => p.categories))
 ).sort();
