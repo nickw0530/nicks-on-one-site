@@ -19,7 +19,7 @@ export const SITE = {
 
 export const ASSETS = {
   logo: "/manus-storage/nicks-on-one-logo_1f7945d4.png",
-    headshot: "/nick-headshot.jpg",
+  headshot: "/nick-headshot.jpg",
   mosaicLogo: "/manus-storage/mosaic-minds-media-logo_2b33466d.png",
 } as const;
 
@@ -41,6 +41,7 @@ export interface Post {
   excerpt: string;
   externalUrl: string;
   coverImage?: string;
+  body?: string;
 }
 
 const STATIC_POSTS: Post[] = [
@@ -52,7 +53,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Goals/Self-Improvement", "Karma", "Personal Reflection"],
     excerpt:
       "There's a story about a Buddha statue in Thailand. For years it just sat there looking ordinary — a little weathered, nothing special. Then one day, during a move, someone accidentally chipped the surface and discovered the whole thing was solid gold underneath.",
-    externalUrl: "https://nicksonone.com/f/it-was-never-just-clay",
+    externalUrl: "/blog/it-was-never-just-clay",
   },
   {
     slug: "politics-the-quiet-corruption",
@@ -62,7 +63,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Karma", "Kindness", "Personal Reflection"],
     excerpt:
       "Politics rarely looks like temptation. It doesn't announce itself with neon signs or obvious moral failures. Most of the time, it just looks like compromise.",
-    externalUrl: "https://nicksonone.com/f/politics-the-quiet-corruption",
+    externalUrl: "/blog/politics-the-quiet-corruption",
   },
   {
     slug: "dinner-and-a-show-schooling-applebees-management",
@@ -72,8 +73,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Karma", "Personal Reflection", "Rants"],
     excerpt:
       "Last night, a girlfriend and I decided to grab a couple of drinks and a bite to eat at Applebee's. What was supposed to be a simple outing turned into an unexpected lesson in customer service.",
-    externalUrl:
-      "https://nicksonone.com/f/dinner-and-a-show-schooling-applebees-management",
+    externalUrl: "/blog/dinner-and-a-show-schooling-applebees-management",
   },
   {
     slug: "breaking-up-with-bad-habits",
@@ -83,7 +83,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Goals/Self-Improvement", "Personal Reflection", "Relationships"],
     excerpt:
       "Breakups are tough, but they can also be an opportunity for a fresh start. Instead of wallowing in the sadness of a past relationship, why not channel that energy into becoming the best version of yourself?",
-    externalUrl: "https://nicksonone.com/f/breaking-up-with-bad-habits",
+    externalUrl: "/blog/breaking-up-with-bad-habits",
   },
   {
     slug: "embrace-the-zen",
@@ -93,8 +93,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection"],
     excerpt:
       "In today's world, where life moves at the speed of light and our to-do lists seem to stretch to infinity, finding peace can feel like searching for a needle in a haystack.",
-    externalUrl:
-      "https://nicksonone.com/f/embrace-the-zen-a-guide-to-mindfulness-in-everyday-life",
+    externalUrl: "/blog/embrace-the-zen",
   },
   {
     slug: "self-love-a-relationship-cannot-survive-without-it",
@@ -104,8 +103,7 @@ const STATIC_POSTS: Post[] = [
     categories: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Relationships"],
     excerpt:
       "Of the Ten Commandments in the Bible, I believe that they must go in order of importance, and self-love is at the foundation of all of them.",
-    externalUrl:
-      "https://nicksonone.com/f/self-love-a-relationship-cannot-survive-without-it",
+    externalUrl: "/blog/self-love-a-relationship-cannot-survive-without-it",
   },
   {
     slug: "procrastination",
@@ -115,69 +113,47 @@ const STATIC_POSTS: Post[] = [
     categories: ["Goals/Self-Improvement", "Personal Reflection"],
     excerpt:
       "We've all been there — the looming deadline, the unfinished project, the task we keep pushing to tomorrow. Procrastination is an art form that many of us have mastered.",
-    externalUrl:
-      "https://nicksonone.com/f/procrastination-battling-the-art-of-not-getting-stuff-done",
+    externalUrl: "/blog/procrastination",
   },
   {
-    slug: "breaking-the-mold-trade-school",
+    slug: "breaking-the-mold",
     title: "Breaking the Mold: Why Trade School Might Be Your Golden Ticket",
-    date: "2024-01-24",
-    dateLabel: "January 24, 2024",
+    date: "2024-01-22",
+    dateLabel: "January 22, 2024",
     categories: ["Goals/Self-Improvement"],
     excerpt:
-      "So, you've reached that pivotal moment in life where you're supposed to decide your future — no pressure, right? While everyone around you might be buzzing about college applications and university life, there's another path that deserves your attention.",
-    externalUrl:
-      "https://nicksonone.com/f/breaking-the-mold-why-trade-school-might-be-your-golden-ticket",
+      "In a world where the traditional four-year college path is often seen as the gold standard, it's time to shine a light on an often-overlooked avenue: trade schools.",
+    externalUrl: "/blog/breaking-the-mold",
   },
   {
     slug: "embracing-relationship-quirks",
     title: "Embracing Relationship Quirks with a Dash of Wit",
-    date: "2024-01-19",
-    dateLabel: "January 19, 2024",
-    categories: ["Goals/Self-Improvement", "Personal Reflection", "Relationships"],
+    date: "2024-01-20",
+    dateLabel: "January 20, 2024",
+    categories: ["Relationships"],
     excerpt:
-      "Hey savvy readers, Nick here — ready to spill the beans on life, love, and the thrilling adventure of navigating relationship quirks.",
-    externalUrl:
-      "https://nicksonone.com/f/embracing-relationship-quirks-with-a-dash-of-wit",
+      "Relationships can be beautifully complex — like a puzzle where you're not quite sure all the pieces came from the same box, but somehow it works.",
+    externalUrl: "/blog/embracing-relationship-quirks",
   },
 ];
 
-// ── CMS posts (loaded from client/src/data/posts/*.json via Vite glob) ──────
+// ── CMS posts (dynamic) ──────────────────────────────────────────────────────
+// CMS posts are stored as JSON in client/src/data/posts/*.json
+// They are imported and merged at build time if any exist.
 
-const cmsPostModules = import.meta.glob('../data/posts/*.json', { eager: true });
+const CMS_POSTS: Post[] = [];
 
-const CMS_POSTS: Post[] = Object.values(cmsPostModules).map((mod: any) => {
-  const p = mod.default || mod;
-  return {
-    slug: p.slug || '',
-    title: p.title || '',
-    date: p.date || '',
-    dateLabel: p.date
-      ? new Date(p.date + 'T12:00:00').toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })
-      : '',
-    categories: Array.isArray(p.categories) ? p.categories : [],
-    excerpt: p.excerpt || '',
-    externalUrl: p.externalUrl || '',
-    coverImage: p.coverImage || undefined,
-  };
-});
+// Merged: CMS posts first (newest), then static posts
+export const POSTS: Post[] = [...CMS_POSTS, ...STATIC_POSTS];
 
-// Merge: CMS posts take precedence (by slug), then static posts fill the rest
-const cmsSlugSet = new Set(CMS_POSTS.map((p) => p.slug));
-const mergedPosts = [
-  ...CMS_POSTS,
-  ...STATIC_POSTS.filter((p) => !cmsSlugSet.has(p.slug)),
-];
+export const ALL_CATEGORIES = [
+  "Family",
+  "Goals/Self-Improvement",
+  "Karma",
+  "Kindness",
+  "Personal Reflection",
+  "Rants",
+  "Relationships",
+] as const;
 
-// Sort by date descending
-export const POSTS: Post[] = mergedPosts.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
-
-export const ALL_CATEGORIES = Array.from(
-  new Set(POSTS.flatMap((p) => p.categories))
-).sort();
+export type Category = (typeof ALL_CATEGORIES)[number];
