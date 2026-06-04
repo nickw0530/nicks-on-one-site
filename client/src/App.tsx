@@ -15,12 +15,14 @@ import Blog from "./pages/Blog";
 import About from "./pages/About";
 import Podcast from "./pages/Podcast";
 import Subscribe from "./pages/Subscribe";
+import PostDetail from "./pages/PostDetail";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={PostDetail} />
       <Route path="/about" component={About} />
       <Route path="/podcast" component={Podcast} />
       <Route path="/subscribe" component={Subscribe} />
