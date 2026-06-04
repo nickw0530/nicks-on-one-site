@@ -18,7 +18,7 @@ export const SITE = {
 } as const;
 
 export const ASSETS = {
-    logo: "",
+    logo: "/Site-Logo.png",
   headshot: "/nick-headshot.jpg",
   mosaicLogo: "/MMM Logo.png",
 } as const;
