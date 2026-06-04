@@ -1,0 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: client/public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: client/src/data/posts
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Cover Image", name: "image", widget: "image", required: false}
+      - {label: "Categories", name: "categories", widget: "list", field: {label: "Category", name: "category", widget: "select", options: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection", "Rants", "Relationships"]}}
+      - {label: "External Post URL", name: "externalUrl", widget: "string", required: false}
