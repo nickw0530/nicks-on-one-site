@@ -17,23 +17,36 @@ function YouTubeSection() {
   const CHANNEL_ID = "UCYBJLlAgN1SfIYe3zRE1CyQ";
   const CHANNEL_URL = "https://www.youtube.com/@nicks_on_one";
 
+  // Fallback to the most recent known video so the section always renders.
+    const FALLBACK_ID = "6Za9zGlotvc";
+    const FALLBACK_TITLE = "Is It Your Fault You Got Cheated On? Yes.";
+
   useEffect(() => {
-    const url = "https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID;
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.items && data.items.length > 0) {
-          const latest = data.items[0];
-          const id = latest.link.split("v=")[1]?.split("&")[0];
-          if (id) {
-            setVideoId(id);
-            setVideoTitle(latest.title || "Latest Video");
-          }
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+      setVideoId(FALLBACK_ID);
+          setVideoTitle(FALLBACK_TITLE);
+          setLoading(false);
+
+          // Try to fetch the newest video from the channel RSS via a CORS proxy.
+          const feed =
+                  "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID;
+          const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(feed);
+          fetch(proxy)
+            .then((r) => r.text())
+            .then((xml) => {
+                      const open = "<" + "yt:videoId>";
+                      const close = "<" + "/yt:videoId>";
+                      const start = xml.indexOf(open);
+                      if (start === -1) return;
+                      const id = xml.slice(start + open.length, xml.indexOf(close, start));
+                      const entry = xml.split("<" + "entry>")[1] || "";
+                      const tMatch = entry.match(/<title>([^<]+)<\/title>/);
+                      if (id) {
+                                  setVideoId(id);
+                                  setVideoTitle(tMatch ? tMatch[1] : "Latest Video");
+                      }
+            })
+            .catch(() => {});
+    }, []);
 
   if (loading) return null;
 
