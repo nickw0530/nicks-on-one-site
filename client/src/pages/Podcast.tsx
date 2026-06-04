@@ -47,9 +47,7 @@ export default function Podcast() {
             >
               <div>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-paper/10 flex items-center justify-center ring-1 ring-white/15">
-                    <Headphones className="w-5 h-5 text-[color:var(--noo-accent)]" />
-                  </div>
+                  <img src={ASSETS.podcastLogo} alt="Mosaic Minds Podcast" className="w-12 h-12 rounded-full object-cover ring-1 ring-white/15" />
                   <span className="kicker">Podcast</span>
                 </div>
                 <h2 className="font-display font-black text-[clamp(2rem,3.5vw,2.75rem)] tracking-[-0.015em] leading-[1.05]">
