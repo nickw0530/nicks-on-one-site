@@ -19,6 +19,7 @@
       rel="stylesheet"
     />
 
+        <script>/* compat: define h as no-op to prevent ReferenceError from legacy jsx-loc plugin */if(typeof h==="undefined")window.h=function(){};</script>
     <!-- Netlify Identity: redirect invite/recovery tokens to /admin -->
     <script>
       if (window.location.hash && (
