@@ -1,3 +1,13 @@
+# Build: generate OG manifest after the Vite build so the edge function can read it
+[build]
+  command = "vite build && node scripts/gen-og-manifest.mjs"
+  publish = "dist/public"
+
+# Edge function: inject per-post social share meta tags on blog routes
+[[edge_functions]]
+  path = "/blog/*"
+  function = "og-tags"
+
 # Redirect all routes to index.html for React SPA routing
 [[redirects]]
   from = "/*"
