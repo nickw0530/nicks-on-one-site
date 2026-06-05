@@ -68,7 +68,7 @@ export default function SiteHeader() {
 
         {/* Desktop nav */}
         <nav aria-label="Primary" className="hidden md:flex items-center gap-7">
-          {NAV.slice(0, 4).map((item) => {
+          {NAV.slice(0, 3).map((item) => {
             const active = location === item.href;
             return (
               <Link
