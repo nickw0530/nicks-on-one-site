@@ -3,10 +3,11 @@
  * Blog post detail page. Route: /blog/:slug
  */
 
+import { useState } from "react";
 import { useParams, Link } from "wouter";
 import PageLayout from "@/components/PageLayout";
 import { POSTS } from "@/lib/site";
-import { ArrowLeft, ArrowUpRight, Calendar, Tag } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Calendar, Tag, Share2, Link2, Check } from "lucide-react";
 
 /** Simple markdown-to-HTML converter for blog post body content */
 function parseMarkdown(md: string): string {
@@ -51,6 +52,22 @@ function parseMarkdown(md: string): string {
   return html;
 }
 
+/** Extract a YouTube video ID from common URL formats and return an embed URL */
+function getYouTubeEmbed(url: string): string | null {
+  if (!url) return null;
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
+    /(?:youtu\.be\/)([\w-]{11})/,
+    /(?:youtube\.com\/embed\/)([\w-]{11})/,
+    /(?:youtube\.com\/shorts\/)([\w-]{11})/,
+  ];
+  for (const re of patterns) {
+    const m = url.match(re);
+    if (m) return "https://www.youtube.com/embed/" + m[1];
+  }
+  return null;
+}
+
 export default function PostDetail() {
   const { slug } = useParams<{ slug: string }>();
   const post = POSTS.find((p) => p.slug === slug);
@@ -79,6 +96,18 @@ export default function PostDetail() {
     );
   }
 
+  const embedUrl = post.youtubeUrl ? getYouTubeEmbed(post.youtubeUrl) : null;
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "https://nicksonone.com" + post.externalUrl;
+  const shareText = post.title;
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) { /* clipboard unavailable */ }
+  };
+
   return (
     <PageLayout
       title={post.title + " | Nick's On One"}
@@ -103,6 +132,20 @@ export default function PostDetail() {
                     src={post.coverImage}
                     alt={post.title}
                     className="w-full h-64 md:h-80 object-cover"
+                  />
+                </div>
+              )}
+
+              {/* YouTube video embed */}
+              {embedUrl && (
+                <div className="mb-8 rounded-sm overflow-hidden aspect-video bg-ink">
+                  <iframe
+                    className="w-full h-full"
+                    src={embedUrl}
+                    title={post.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
                   />
                 </div>
               )}
@@ -168,6 +211,29 @@ export default function PostDetail() {
                 </div>
               </div>
             )}
+
+            {/* Share this post */}
+            <div className="mt-14 pt-8 border-t border-ink/15">
+              <span className="font-mono text-[11.5px] uppercase tracking-[0.16em] text-ink/55 flex items-center gap-2">
+                <Share2 className="w-3.5 h-3.5" />
+                Share this post
+              </span>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on X" className="inline-flex items-center gap-2 px-4 py-2 border border-ink/20 rounded-sm font-mono text-[11.5px] uppercase tracking-[0.14em] text-ink/70 hover:bg-ink hover:text-paper transition-colors">
+                  X / Twitter
+                </a>
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" className="inline-flex items-center gap-2 px-4 py-2 border border-ink/20 rounded-sm font-mono text-[11.5px] uppercase tracking-[0.14em] text-ink/70 hover:bg-ink hover:text-paper transition-colors">
+                  Facebook
+                </a>
+                <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" className="inline-flex items-center gap-2 px-4 py-2 border border-ink/20 rounded-sm font-mono text-[11.5px] uppercase tracking-[0.14em] text-ink/70 hover:bg-ink hover:text-paper transition-colors">
+                  LinkedIn
+                </a>
+                <button onClick={handleCopy} aria-label="Copy link" className="inline-flex items-center gap-2 px-4 py-2 border border-ink/20 rounded-sm font-mono text-[11.5px] uppercase tracking-[0.14em] text-ink/70 hover:bg-ink hover:text-paper transition-colors">
+                  {copied ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
+                  {copied ? "Copied" : "Copy Link"}
+                </button>
+              </div>
+            </div>
 
             <div className="mt-16 pt-8 border-t border-ink/15 flex flex-wrap items-center justify-between gap-4">
               <Link href="/blog">
