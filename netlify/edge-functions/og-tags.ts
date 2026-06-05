@@ -55,37 +55,37 @@ const t = escapeHtml(title);
   const img = escapeHtml(image);
 
 html = html
-  .replace(/<title>[^<]*<\/title>/i, "<title>" + t + "</title>")
+  .replace(/<title>[^<]*<\/title>/gi, "<title>" + t + "</title>")
   .replace(
-    /<meta property="og:title" content="[^"]*" \/>/i,
+    /<meta property="og:title" content="[^"]*" \/>/gi,
     '<meta property="og:title" content="' + t + '" />'
     )
   .replace(
-    /<meta property="og:description" content="[^"]*" \/>/i,
+    /<meta property="og:description" content="[^"]*" \/>/gi,
     '<meta property="og:description" content="' + d + '" />'
     )
   .replace(
-    /<meta property="og:image" content="[^"]*" \/>/i,
+    /<meta property="og:image" content="[^"]*" \/>/gi,
     '<meta property="og:image" content="' + img + '" />'
     )
   .replace(
-    /<meta property="og:url" content="[^"]*" \/>/i,
+    /<meta property="og:url" content="[^"]*" \/>/gi,
     '<meta property="og:url" content="' + SITE + url.pathname + '" />'
     )
   .replace(
-    /<meta property="og:type" content="[^"]*" \/>/i,
+    /<meta property="og:type" content="[^"]*" \/>/gi,
     '<meta property="og:type" content="article" />'
     )
   .replace(
-    /<meta name="twitter:image" content="[^"]*" \/>/i,
+    /<meta name="twitter:image" content="[^"]*" \/>/gi,
     '<meta name="twitter:image" content="' + img + '" />'
     )
   .replace(
-    /<meta name="twitter:title" content="[^"]*" \/>/i,
+    /<meta name="twitter:title" content="[^"]*" \/>/gi,
     '<meta name="twitter:title" content="' + t + '" />'
     )
   .replace(
-    /<meta name="twitter:description" content="[^"]*" \/>/i,
+    /<meta name="twitter:description" content="[^"]*" \/>/gi,
     '<meta name="twitter:description" content="' + d + '" />'
     );
 
