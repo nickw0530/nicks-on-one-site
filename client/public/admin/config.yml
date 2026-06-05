@@ -24,3 +24,4 @@ collections:
         widget: "list"
         field: {label: "Category", name: "category", widget: "select", options: ["Family", "Goals/Self-Improvement", "Karma", "Kindness", "Personal Reflection", "Rants", "Relationships"]}
       - {label: "External Post URL", name: "externalUrl", widget: "string", required: false}
+      - {label: "YouTube Video URL", name: "youtubeUrl", widget: "string", required: false, hint: "Paste a YouTube link to embed the video on this post (optional)"}
