@@ -43,6 +43,7 @@ export interface Post {
   externalUrl: string;
   coverImage?: string;
   body?: string;
+  youtubeUrl?: string;
 }
 
 const STATIC_POSTS: Post[] = [
@@ -163,6 +164,7 @@ const CMS_POSTS: Post[] = Object.values(jsonModules)
       externalUrl: data.externalUrl || '/blog/' + data.slug,
       coverImage: data.coverImage || undefined,
       body: data.body || undefined,
+      youtubeUrl: data.youtubeUrl || undefined,
     } as Post;
   })
   .filter((p): p is Post => p !== null)
