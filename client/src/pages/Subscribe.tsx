@@ -89,4 +89,4 @@ export default function Subscribe() {
                 </section>
           </PageLayout>
         );
-}</PageLayout>
+}
