@@ -12,7 +12,6 @@
            * How to set it:
             *   Netlify Dashboard → Site → Environment Variables → Add variable
              *   Key: BUTTONDOWN_API_KEY
-              *   Value: ed3ccb88-18aa-4b21-8cc2-8d61eef20d84
                */
 
                import type { Config } from "@netlify/functions";
