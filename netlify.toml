@@ -1,6 +1,6 @@
 # Build: generate OG manifest after the Vite build so the edge function can read it
 [build]
-  command = "vite build && node scripts/gen-og-manifest.mjs"
+  command = "vite build && node scripts/gen-og-manifest.mjs && node scripts/gen-rss.mjs"
   publish = "dist/public"
 
 # Edge function: inject per-post social share meta tags on blog routes
