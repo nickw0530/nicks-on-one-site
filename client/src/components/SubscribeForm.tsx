@@ -12,7 +12,7 @@ interface SubscribeFormProps {
 }
 
 const BD_EMBED_URL =
-        "https://buttondown.com/api/emails/embed-subscribe/nickw0530";
+        "https://buttondown.com/api/emails/embed-subscribe/nicks0530";
 
 export default function SubscribeForm({
         variant = "light",
