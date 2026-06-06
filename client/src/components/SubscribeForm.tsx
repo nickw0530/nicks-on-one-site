@@ -70,17 +70,17 @@ export default function SubscribeForm({
                               >
                             <div className="mt-0.5 w-8 h-8 flex items-center justify-center bg-[color:var(--noo-accent)] text-white shrink-0">
                                       <Check className="w-4 h-4" />
-                            </div>div>
+                            </div>
                             <div>
                                       <p className="font-display font-bold text-lg leading-tight">
                                                   You're in — check your inbox.
-                                      </p>p>
+                                      </p>
                                       <p className={`text-[14px] mt-1 ${dark ? "text-paper/70" : "text-ink/70"}`}>
                                                   A confirmation email is on its way to{" "}
-                                                  <strong>{email}</strong>strong>.
-                                      </p>p>
-                            </div>div>
-                    </div>div>
+                                                  <strong>{email}</strong>.
+                                      </p>
+                            </div>
+                    </div>
                   );
   }
     
@@ -102,7 +102,7 @@ export default function SubscribeForm({
                       >
                     <label htmlFor={`subscribe-email-${variant}`} className="sr-only">
                             Email address
-                    </label>label>
+                    </label>
                     <input
                                 id={`subscribe-email-${variant}`}
                                 name="email"
@@ -126,7 +126,7 @@ export default function SubscribeForm({
                               >
                         {submitting ? "Sending…" : "Subscribe"}
                             <ArrowRight className="w-4 h-4" />
-                    </button>button>
-              </form>form>
+                    </button>
+              </form>
             );
-}</div>
+}
