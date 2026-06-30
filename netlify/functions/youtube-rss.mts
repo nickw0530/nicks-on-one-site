@@ -7,7 +7,13 @@ interface VideoItem {
 }
 
 const cache = new Map<string, { data: VideoItem[]; ts: number }>();
-const CACHE_TTL = 15 * 60 * 1000;
+const CACHE_TTL = 5 * 60 * 1000;
+
+function looksLikeShortTitle(title: string): boolean {
+  if (/#shorts?\b/i.test(title)) return true;
+  const hashtags = title.match(/#[A-Za-z0-9_]+/g);
+  return !!hashtags && hashtags.length >= 2;
+}
 
 async function isShortVideo(id: string): Promise<boolean> {
   try {
@@ -36,6 +42,7 @@ async function fetchFeed(channelId: string): Promise<VideoItem[]> {
   }
   const items: VideoItem[] = [];
   for (const c of candidates) {
+    if (looksLikeShortTitle(c.title)) continue;
     if (await isShortVideo(c.id)) continue;
     items.push(c);
   }
@@ -51,7 +58,7 @@ export default async (req: Request, _context: Context) => {
   }
   try {
     const items = await fetchFeed(channelId);
-    return new Response(JSON.stringify({ videos: items }), { headers: { "content-type": "application/json", "cache-control": "public, max-age=900" } });
+    return new Response(JSON.stringify({ videos: items }), { headers: { "content-type": "application/json", "cache-control": "public, max-age=300" } });
   } catch (e: any) {
     return new Response(JSON.stringify({ error: String(e?.message || e) }), { status: 500, headers: { "content-type": "application/json" } });
   }
