@@ -29,7 +29,7 @@ function YouTubeSection() {
           // Try to fetch the newest video from the channel RSS via a CORS proxy.
           const feed =
                   "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID;
-          const proxy = "/.netlify/functions/youtube-rss?channelId=" + CHANNEL_ID;
+          const proxy = "/.netlify/functions/youtube-rss?channelId=" + CHANNEL_ID + "&_=" + Date.now();
           fetch(proxy)
             .then((r) => r.json())
             .then((data) => {
