@@ -23,6 +23,8 @@ const idMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
 const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
 const pubMatch = entry.match(/<published>([^<]+)<\/published>/);
 if (!idMatch) continue;
+const ttl = titleMatch ? titleMatch[1] : "";
+if (/#shorts/i.test(ttl)) continue;
 items.push({
 id: idMatch[1],
 title: titleMatch ? titleMatch[1] : "Latest Video",
