@@ -89,7 +89,7 @@ export default function Blog() {
                     href={post.externalUrl}
                     className="grid grid-cols-12 gap-4 md:gap-6 py-7 md:py-10 group items-baseline"
                   >
-                    <span className="col-span-2 md:col-span-1 font-mono text-xs text-ink/45 tabular-nums pt-2">
+                    <div className="col-span-12 mb-2">{post.coverImage && <img src={post.coverImage} alt={post.title} className="w-full h-40 object-cover rounded-sm" />}</div><span className="col-span-2 md:col-span-1 font-mono text-xs text-ink/45 tabular-nums pt-2">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div className="col-span-10 md:col-span-3">
