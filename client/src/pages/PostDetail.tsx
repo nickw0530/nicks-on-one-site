@@ -10,7 +10,8 @@ import { POSTS } from "@/lib/site";
 import { ArrowLeft, ArrowUpRight, Calendar, Tag, Share2, Link2, Check } from "lucide-react";
 
 /** Simple markdown-to-HTML converter for blog post body content */
-function parseMarkdown(md: string): string {
+function parseMarkdown(md: string): string {87
+                                            
   let html = md
     // Escape any existing HTML to prevent XSS
     .replace(/&/g, "&amp;")
@@ -84,7 +85,7 @@ export default function PostDetail() {
             The post you're looking for may have moved or doesn't exist yet.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/blog">
+            <Link href="/">
               <button className="btn-primary">Back to Home</button>
             </Link>
             <Link href="/">
@@ -117,7 +118,7 @@ export default function PostDetail() {
       <article>
         <header className="border-b border-ink/15">
           <div className="container py-12 md:py-20">
-            <Link href="/blog">
+            <Link href="/">
               <button className="inline-flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors mb-8">
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Back to Home
@@ -236,7 +237,7 @@ export default function PostDetail() {
             </div>
 
             <div className="mt-16 pt-8 border-t border-ink/15 flex flex-wrap items-center justify-between gap-4">
-              <Link href="/blog">
+              <Link href="/">
                 <button className="inline-flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors">
                   <ArrowLeft className="w-3.5 h-3.5" />
                   All Posts
