@@ -29,22 +29,17 @@ function YouTubeSection() {
           // Try to fetch the newest video from the channel RSS via a CORS proxy.
           const feed =
                   "https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID;
-          const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(feed);
+          const proxy = "/.netlify/functions/youtube-rss?channelId=" + CHANNEL_ID;
           fetch(proxy)
-            .then((r) => r.text())
-            .then((xml) => {
-                      const open = "<" + "yt:videoId>";
-                      const close = "<" + "/yt:videoId>";
-                      const start = xml.indexOf(open);
-                      if (start === -1) return;
-                      const id = xml.slice(start + open.length, xml.indexOf(close, start));
-                      const entry = xml.split("<" + "entry>")[1] || "";
-                      const tMatch = entry.match(/<title>([^<]+)<\/title>/);
-                      if (id) {
-                                  setVideoId(id);
-                                  setVideoTitle(tMatch ? tMatch[1] : "Latest Video");
+            .then((r) => r.json())
+            .then((data) => {
+          const vids = (data && data.videos) || [];
+                      if (vids.length > 0) {
+                                    setVideoId(vids[0].id);
+                                    setVideoTitle(vids[0].title || "Latest Video");
                       }
-            })
+            })              
+                      
             .catch(() => {});
     }, []);
 
