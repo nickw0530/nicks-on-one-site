@@ -1,76 +1,59 @@
 import type { Context } from "@netlify/functions";
-import { XMLParser } from "fast-xml-parser";
-
-const parser = new XMLParser({ ignoreAttributes: false });
-
-// Simple in-memory cache (per function instance)
-const cache = new Map<string, { data: VideoItem[]; ts: number }>();
-const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
 interface VideoItem {
-  id: string;
-    title: string;
-      link: string;
-        thumbnail: string;
-          published: string;
-            channelTitle: string;
-            }
+id: string;
+title: string;
+published: string;
+}
 
-            async function fetchFeed(channelId: string): Promise<VideoItem[]> {
-              const cached = cache.get(channelId);
+const cache = new Map<string, { data: VideoItem[]; ts: number }>();
+const CACHE_TTL = 15 * 60 * 1000;
 
-                  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-                      return cached.data;
-                        }
+async function fetchFeed(channelId: string): Promise<VideoItem[]> {
+const cached = cache.get(channelId);
+if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
+const url = "https://www.youtube.com/feeds/videos.xml?channel_id=" + channelId;
+const res = await fetch(url);
+if (!res.ok) throw new Error("feed fetch failed: " + res.status);
+const xml = await res.text();
+const entries = xml.split("<entry>").slice(1);
+const items: VideoItem[] = [];
+for (const entry of entries) {
+const idMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+const pubMatch = entry.match(/<published>([^<]+)<\/published>/);
+if (!idMatch) continue;
+items.push({
+id: idMatch[1],
+title: titleMatch ? titleMatch[1] : "Latest Video",
+published: pubMatch ? pubMatch[1] : "",
+});
+}
+cache.set(channelId, { data: items, ts: Date.now() });
+return items;
+}
 
-                          const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-                            const res = await fetch(url);
-
-                                if (!res.ok) {
-                                    throw new Error(`RSS fetch failed: ${res.status}`);
-                                      }
-
-                                        const xml = await res.text();
-                                          const parsed = parser.parse(xml);
-                                            const entries: any[] = parsed.feed?.entry ?? [];
-
-                                              const videos: VideoItem[] = entries.slice(0, 6).map((e: any) => {
-                                                  const videoId = (e["yt:videoId"] as string) ?? "";
-                                                      return {
-                                                            id: videoId,
-                                                                  title: e.title ?? "",
-                                                                        link: e.link?.["@_href"] ?? `https://www.youtube.com/watch?v=${videoId}`,
-                                                                              thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-                                                                                    published: e.published ?? "",
-                                                                                          channelTitle: parsed.feed?.["yt:channelId"] ?? "",
-                                                                                              };
-                                                                                                });
-
-                                                                                                  cache.set(channelId, { data: videos, ts: Date.now() });
-                                                                                                    return videos;
-                                                                                                    }
-                                                                                                    
-                                                                                                    export default async function handler(req: Request, context: Context) {
-                                                                                                      const url = new URL(req.url);
-                                                                                                        const channelId = url.searchParams.get("channelId");
-                                                                                                        
-                                                                                                          if (!channelId) {
-                                                                                                              return new Response(
-                                                                                                                    JSON.stringify({ error: "channelId required" }),
-                                                                                                                          { status: 400, headers: { "Content-Type": "application/json" } }
-                                                                                                                              );
-                                                                                                                                }
-                                                                                                                                
-                                                                                                                                  try {
-                                                                                                                                      const videos = await fetchFeed(channelId);
-                                                                                                                                          return new Response(JSON.stringify(videos), {
-                                                                                                                                                status: 200,
-                                                                                                                                                      headers: { "Content-Type": "application/json" },
-                                                                                                                                                          });
-                                                                                                                                                            } catch (error) {
-                                                                                                                                                                return new Response(
-                                                                                                                                                                      JSON.stringify({ error: String(error) }),
-                                                                                                                                                                            { status: 500, headers: { "Content-Type": "application/json" } }
-                                                                                                                                                                                );
-                                                                                                                                                                                  }
-                                                                                                                                                                                  }
+export default async (req: Request, _context: Context) => {
+const params = new URL(req.url).searchParams;
+const channelId = params.get("channelId");
+if (!channelId) {
+return new Response(JSON.stringify({ error: "channelId required" }), {
+status: 400,
+headers: { "content-type": "application/json" },
+});
+}
+try {
+const items = await fetchFeed(channelId);
+return new Response(JSON.stringify({ videos: items }), {
+headers: {
+"content-type": "application/json",
+"cache-control": "public, max-age=900",
+},
+});
+} catch (e: any) {
+return new Response(JSON.stringify({ error: String(e?.message || e) }), {
+status: 500,
+headers: { "content-type": "application/json" },
+});
+}
+};
