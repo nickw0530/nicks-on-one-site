@@ -1,4 +1,4 @@
-/**
+h/**
  * NICK'S ON ONE — Newsstand Editorial design system
  * Blog post detail page. Route: /blog/:slug
  */
@@ -85,7 +85,7 @@ export default function PostDetail() {
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link href="/blog">
-              <button className="btn-primary">Back to Blog</button>
+              <button className="btn-primary">Back to Home</button>
             </Link>
             <Link href="/">
               <button className="btn-outline">Back Home</button>
@@ -120,7 +120,7 @@ export default function PostDetail() {
             <Link href="/blog">
               <button className="inline-flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-ink/55 hover:text-ink transition-colors mb-8">
                 <ArrowLeft className="w-3.5 h-3.5" />
-                Back to Blog
+                Back to Home
               </button>
             </Link>
 
